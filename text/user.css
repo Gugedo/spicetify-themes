@@ -50,10 +50,10 @@
     --font-size-multiplier-header: 4;
 
     --display-card-image: block; /* none | block */
-    --display-coverart-image: none; /* none | block */
-    --display-header-image: none; /* none | block */
+    --display-coverart-image: block; /* none | block modificato*/
+    --display-header-image: block; /* none | block modificato*/
     --display-sidebar-image: block; /* none | block */
-    --display-tracklist-image: none; /* none | block */
+    --display-tracklist-image: block; /* none | block modificato*/
     --display-spicetify-banner-ascii: block; /* none | block */
     --display-music-banner-ascii: none; /* none | block */
 
@@ -851,7 +851,7 @@ form .main-topBar-searchBar:placeholder-shown {
 }
 .player-controls__buttons,
 .main-nowPlayingBar-extraControls {
-    opacity: 0.25;
+    opacity: 1;
     transition: opacity var(--border-transition);
 }
 .player-controls__buttons:hover,
@@ -988,4 +988,78 @@ button:has(
 }
 .main-connectBar-connectBar svg {
     fill: var(--spice-accent-active);
+}
+
+/* Ingrandisce i pulsanti di riproduzione (Play, Avanti, Indietro) */
+.player-controls__buttons button {
+    transform: scale(1.8) !important; /* 1.5 significa il 50% più grandi. Prova 1.8 o 2.0 se li vuoi enormi */
+    margin: 0 10px !important; /* Aumenta lo spazio tra i tasti per non farli toccare */
+}
+
+/* Ingrandisce i tasti extra (Shuffle e Repeat) se necessario */
+.player-controls__buttons button[data-testid="control-button-shuffle"],
+.player-controls__buttons button[data-testid="control-button-repeat"] {
+    transform: scale(1.8) !important; /* Leggermente più piccoli dei tasti principali */
+}
+
+/* Rimuove eventuali ritagli (overflow) che potrebbero mozzare i tasti ingranditi */
+.player-controls__buttons {
+    overflow: visible !important;
+    align-items: center !important;
+}
+/* 1. RESET GENERALE DEL PULSANTE */
+/* 1. SISTEMA IL CONTENITORE E ALLINEA TUTTO AL CENTRO */
+.player-controls__buttons {
+    display: flex !important;
+    justify-content: center !important; /* Forza il contenuto al centro esatto */
+    align-items: center !important;
+    gap: 10px !important; /* Gestisce lo spazio tra i tasti in modo uguale per tutti */
+    width: 100% !important;
+    margin: 0 auto !important;
+}
+
+/* 2. RESET DEL TASTO PLAY/PAUSE (Senza margin che sposta gli altri) */
+button[data-testid="control-button-playpause"] {
+    transform: scale(1) !important;
+    margin: 0 !important; /* Rimosso il margin che creava il problema */
+    width: 40px !important; /* Spazio sufficiente per il triangolo senza spingere */
+    display: flex !important;
+    justify-content: center !important;
+    background-color: transparent !important;
+}
+
+/* 3. ASSICURA CHE NEXT E PREV SIANO SIMMETRICI */
+button[data-testid="control-button-skip-back"],
+button[data-testid="control-button-skip-forward"] {
+    display: flex !important;
+    justify-content: center !important;
+    width: 20px !important;
+}
+
+/* 2. INGRANDISCE SOLO IL TRIANGOLO (Play / Riproduci) */
+/* Usiamo *= per intercettare sia l'italiano che l'inglese */
+button[data-testid="control-button-playpause"][aria-label*="Play"] *::before,
+button[data-testid="control-button-playpause"][aria-label*="Play"] *::after,
+button[data-testid="control-button-playpause"][aria-label*="Riproduci"] *::before,
+button[data-testid="control-button-playpause"][aria-label*="Riproduci"] *::after {
+    font-size: 40px !important; /* Qui decidi quanto deve essere grande il triangolo */
+    line-height: 1 !important;
+    display: inline-block !important;
+    transform: translateY(0px) !important; /* Centratura verticale se serve */
+}
+
+/* 3. MANTIENE PICCOLE LE STANGHETTE (Pause / Pausa) */
+button[data-testid="control-button-playpause"][aria-label*="Pause"] *::before,
+button[data-testid="control-button-playpause"][aria-label*="Pause"] *::after,
+button[data-testid="control-button-playpause"][aria-label*="Pausa"] *::before,
+button[data-testid="control-button-playpause"][aria-label*="Pausa"] *::after {
+    font-size: 28px !important; /* Dimensione normale per le due linee || */
+    line-height: 1 !important;
+    display: inline-block !important;
+}
+
+/* Alternativa: sposta solo il triangolo se la Pausa è già centrata */
+button[data-testid="control-button-playpause"][aria-label*="Play"] *::before,
+button[data-testid="control-button-playpause"][aria-label*="Play"] *::after {
+    transform: translate(1px, -2px) !important;
 }
