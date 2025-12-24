@@ -1,0 +1,69 @@
+:root {
+    --display-card-image: block; /* none | block */
+    --display-coverart-image: block !important; /* none | block */
+    --display-header-image: block !important; /* none | block */
+    --display-sidebar-image: block; /* none | block */
+    --display-tracklist-image: block !important; /* none | block */
+    --display-spicetify-banner-ascii: block; /* none | block */
+    --display-music-banner-ascii: none; /* none | block */
+}
+/* Rimuove l'effetto "invisibile" quando il mouse è lontano */
+.player-controls__buttons, 
+.main-nowPlayingBar-extraControls {
+    opacity: 1 !important;
+}
+
+/* 1. SISTEMA AREA */
+/* 1. RIDUZIONE SPAZI CONTENITORE */
+.player-controls__buttons {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 10px !important; /* Dimezzato da 20px a 10px */
+    width: auto !important; /* Rimuove l'occupazione totale per compattare */
+    margin: 0 auto !important;
+}
+
+/* 2. COMPATTAZIONE TASTO PLAY/PAUSE */
+button[data-testid="control-button-playpause"] {
+    transform: scale(1) !important;
+    margin: 0 !important;
+    width: 50px !important; /* Ridotto da 80px a 50px per avvicinare i tasti Next/Prev */
+    display: flex !important;
+    justify-content: center !important;
+    background-color: transparent !important;
+}
+
+/* Ingrandisce i tasti Next e Prev e mantiene la dimensione al passaggio del mouse */
+button[data-testid="control-button-skip-back"],
+button[data-testid="control-button-skip-back"]:hover,
+button[data-testid="control-button-skip-back"]:active,
+button[data-testid="control-button-skip-forward"],
+button[data-testid="control-button-skip-forward"]:hover,
+button[data-testid="control-button-skip-forward"]:active {
+    transform: scale(1.5) !important;
+    display: flex !important;
+    justify-content: center !important;
+    width: 20px !important;
+}
+/* 2. INGRANDISCE SOLO IL TRIANGOLO (Play / Riproduci) */
+/* Usiamo *= per intercettare sia l'italiano che l'inglese */
+button[data-testid="control-button-playpause"][aria-label*="Play"] *::before,
+button[data-testid="control-button-playpause"][aria-label*="Play"] *::after,
+button[data-testid="control-button-playpause"][aria-label*="Riproduci"] *::before,
+button[data-testid="control-button-playpause"][aria-label*="Riproduci"] *::after {
+    font-size: 30px !important; /* Qui decidi quanto deve essere grande il triangolo */
+    line-height: 1 !important;
+    display: inline-block !important;
+    transform: translate(2px, 1px) !important; /* Centratura se serve */
+}
+
+/* 3. MANTIENE PICCOLE LE STANGHETTE (Pause / Pausa) */
+button[data-testid="control-button-playpause"][aria-label*="Pause"] *::before,
+button[data-testid="control-button-playpause"][aria-label*="Pause"] *::after,
+button[data-testid="control-button-playpause"][aria-label*="Pausa"] *::before,
+button[data-testid="control-button-playpause"][aria-label*="Pausa"] *::after {
+    font-size: 30px !important; /* Dimensione normale per le due linee || */
+    line-height: 1 !important;
+    display: inline-block !important;
+}
